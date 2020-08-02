@@ -32,10 +32,9 @@ function CadastroCategoria() {
   };
 
   useEffect(() => {
-    const URL = 'http://localhost:8080/categorias';
+    const URL = 'https://britoflix.herokuapp.com/categorias';
     fetch(URL).then(async (res) => {
       const result = await res.json();
-      console.log([...result]);
       setCategorias([...result]);
     });
   }, [values.nome]);
