@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
+import useForm from '../../../hooks/useForms';
+import { URL_BACKEND } from '../../../config';
 
 function CadastroCategoria() {
   const valoresIniciais = {
@@ -9,31 +11,18 @@ function CadastroCategoria() {
     descricao: '',
     cor: '',
   };
+  const { handleChangeInput, values, clearForm } = useForm(valoresIniciais);
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
-
-  const setValue = (key, valor) => {
-    setValues({
-      ...values,
-      [key]: valor,
-    });
-  };
-
-  const handleChangeInput = (e) => {
-    const { value } = e.target;
-    setValue(e.target.getAttribute('name'), value);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setCategorias([...categorias, values]);
 
-    setValues(valoresIniciais);
+    clearForm(valoresIniciais);
   };
 
   useEffect(() => {
-    const URL = 'https://britoflix.herokuapp.com/categorias';
-    fetch(URL).then(async (res) => {
+    fetch(URL_BACKEND).then(async (res) => {
       const result = await res.json();
       setCategorias([...result]);
     });
